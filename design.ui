@@ -21,8 +21,8 @@
     <rect>
      <x>10</x>
      <y>31</y>
-     <width>211</width>
-     <height>145</height>
+     <width>220</width>
+     <height>157</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -103,8 +103,8 @@
     <rect>
      <x>410</x>
      <y>30</y>
-     <width>191</width>
-     <height>61</height>
+     <width>200</width>
+     <height>65</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -360,7 +360,7 @@ background-color: rgb(255, 255, 255);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 4);</string>
+    <string notr="true">color: rgb(0, 0, 0);</string>
    </property>
    <property name="text">
     <string/>
@@ -371,12 +371,12 @@ background-color: rgb(255, 255, 255);</string>
     <rect>
      <x>430</x>
      <y>130</y>
-     <width>201</width>
+     <width>191</width>
      <height>16</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 4);</string>
+    <string notr="true">color: rgb(0, 0, 0);</string>
    </property>
    <property name="text">
     <string/>
