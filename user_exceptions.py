@@ -1,2 +1,0 @@
-class NoFileName(Exception):
-    pass
