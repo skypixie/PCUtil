@@ -32,8 +32,7 @@ class MainWindow(QWidget):
         self.choose_all_internet_btn.clicked.connect(self.choose_all_internet)
     
     def display_hardware(self):
-        self.hardware_listwidget.addItem("Подождите...")
-
+        self.hardware_error_label.setText("Подождите...")
         self.set_hardware_list()
         self.hardware_listwidget.clear()
         self.hardware_listwidget.addItems(self.total_hardware_list)
@@ -43,9 +42,6 @@ class MainWindow(QWidget):
         self.hardware_error_label.setStyleSheet("color: red")
         self.hardware_filename = self.hardware_filename_lineedit.text()
 
-        if not self.hardware_filename:
-            self.hardware_error_label.setText("Введите имя файла!")
-            return
         try:
             if not self.hardware_filename:
                 raise NoFileName
@@ -83,7 +79,6 @@ class MainWindow(QWidget):
 
     def write_internet(self):
         self.internet_error_label.setText("")
-        self.internet_error_label.setStyleSheet("color: red")
         self.internet_filename = self.internet_filename_lineedit.text()
         
         try:
@@ -105,6 +100,7 @@ class MainWindow(QWidget):
                 self.internet_error_label.setStyleSheet("color: green")
                 self.internet_error_label.setText("Готово!")
         except NoFileName:
+            self.internet_error_label.setStyleSheet("color: red")
             self.internet_error_label.setText("Вы забыли написать имя файла!")
 
     def choose_all_internet(self):
@@ -152,17 +148,22 @@ class MainWindow(QWidget):
                 self.total_hardware_list.append(gpu_info[0].Name)
 
     def set_internet_list(self):
-        self.total_internet_list = []
+        try:
+            self.total_internet_list = []
 
-        if self.ping_box.checkState():
-            self.total_internet_list.append(f"Ping: {ping()}")
-        
-        if self.upload_box.checkState():
-            self.total_internet_list.append(f"Скорость загрузки: {upload_speed()}")
-        
-        if self.download_box.checkState():
-            self.total_internet_list.append(f"Скорость скачивания: {download_speed()}")
-        self.internet_error_label.setText("")
+            if self.ping_box.checkState():
+                self.total_internet_list.append(f"Ping: {ping()}")
+
+            if self.upload_box.checkState():
+                self.total_internet_list.append(f"Скорость загрузки: {upload_speed()}")
+
+            if self.download_box.checkState():
+                self.total_internet_list.append(f"Скорость скачивания: {download_speed()}")
+            self.internet_error_label.setText("")
+        except Exception:
+            self.internet_error_label.setStyleSheet("color: red")
+            self.internet_error_label.setText("Нет подключения к сети")
+
 
 
 class Login(QDialog):
