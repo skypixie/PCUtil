@@ -369,7 +369,7 @@ background-color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="internet_error_label">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>420</x>
      <y>130</y>
      <width>191</width>
      <height>16</height>
