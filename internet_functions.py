@@ -4,7 +4,7 @@ import speedtest
 
 def ping():
     ping_str = subprocess.run(["ping", "-n", "1", "yandex.ru"],
-                          stdout=subprocess.PIPE, encoding="CP866")
+                              stdout=subprocess.PIPE, encoding="CP866")
     return parse_ping(ping_str.stdout)
 
 
@@ -18,7 +18,7 @@ def download_speed():
     return make_readable_size(st.download())
 
 
-def make_readable_size(n_bytes):
+def make_readable_size(n_bytes):  # Прводит число к читаемому формату и добавляет единицы измерения
     sizes = ["B", "KB", "MB", "GB", "TB"]
     ind = 0
 
@@ -29,7 +29,7 @@ def make_readable_size(n_bytes):
     return f"{n_bytes} {sizes[ind]}"
 
 
-def parse_ping(ping_str):
+def parse_ping(ping_str):  # Вытаскивает часть с пингом из вывода команды
     ping_str = ping_str.split("=")[2]
     result = ""
 

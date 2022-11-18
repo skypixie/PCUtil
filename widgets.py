@@ -65,7 +65,7 @@ class MainWindow(QWidget):
         except NoFileName:
             self.hardware_error_label.setText("Вы забыли написать имя файла!")
 
-    def choose_all_hardware(self):
+    def choose_all_hardware(self):  # Выбрать все галочки параметров компьютера
         self.manufacturer_box.setChecked(True)
         self.pc_model_box.setChecked(True)
         self.os_name_box.setChecked(True)
@@ -74,13 +74,13 @@ class MainWindow(QWidget):
         self.ram_box.setChecked(True)
         self.gpu_box.setChecked(True)
 
-    def display_internet(self):
+    def display_internet(self):  # Отобразить параметры интернета
         self.progressBar.setValue(0)
         self.set_internet_list()
         self.internet_listwidget.clear()
         self.internet_listwidget.addItems(self.total_internet_list)
 
-    def write_internet(self):
+    def write_internet(self):  # Записать параметры интернета в файл
         self.internet_error_label.setText("")
         self.internet_filename = self.internet_filename_lineedit.text()
         
@@ -106,12 +106,12 @@ class MainWindow(QWidget):
             self.internet_error_label.setStyleSheet("color: red")
             self.internet_error_label.setText("Вы забыли написать имя файла!")
 
-    def choose_all_internet(self):
+    def choose_all_internet(self):  # Выбрать все галочки интернета
         self.ping_box.setChecked(True)
         self.upload_box.setChecked(True)
         self.download_box.setChecked(True)
 
-    def set_hardware_list(self):
+    def set_hardware_list(self):  # Сформировать список с параметрами компьютера
         self.progressBar.setValue(0)
         self.total_hardware_list = []
         computer = wmi.WMI()
@@ -157,7 +157,7 @@ class MainWindow(QWidget):
                 self.total_hardware_list.append(gpu_info[0].Name)
         self.progressBar.setValue(100)
 
-    def set_internet_list(self):
+    def set_internet_list(self):  # Сформровать список с параметрами интернета
         try:
             self.total_internet_list = []
 
@@ -179,7 +179,7 @@ class MainWindow(QWidget):
             self.internet_error_label.setText("Нет подключения к сети")
 
 
-class Login(QDialog):
+class Login(QDialog):  # Диалоговое окно для авторизации
     def __init__(self):
         super(Login, self).__init__()
         self.setWindowTitle("Авторизация")
@@ -199,17 +199,18 @@ class Login(QDialog):
         layout.addWidget(self.go_btn)
         layout.addWidget(self.reg_btn)
 
-    def login(self):
-        if self.username_lineEdit.text().strip() != "":
+    def login(self):  # Войти
+        if self.username_lineEdit.text().strip() != "" and \
+                not ("'" in self.username_lineEdit.text()):
             if authorization.find_in_db(self.username_lineEdit.text().strip()):
                 self.handle_password_log_in()
             else:
                 QMessageBox.warning(self, "Error", "Такого пользователя нет")
         else:
             QMessageBox.warning(
-                self, 'Error', 'Имя не может быть пустым')
+                self, 'Error', 'Имя не может быть пустым или содержать кавычки')
 
-    def handle_password_registrate(self):
+    def handle_password_registrate(self):  # Проверка пароля при регистрации
         if authorization.is_ok_passwd(self.password_lineEdit.text().strip()):
             if not authorization.find_in_db(self.username_lineEdit.text().strip()):
                 authorization.add_in_db(self.username_lineEdit.text().strip(),
@@ -217,12 +218,12 @@ class Login(QDialog):
                 self.accept()
             else:
                 QMessageBox.warning(
-                    self, 'Error', 'Нужно другое имя пользователя')
+                    self, 'Error', 'Такой пользователь уже есть')
         else:
             QMessageBox.warning(self, "Error",
                                 "Пароль должен быть > 6 букв, содержать заглавные буквы и цифры")
 
-    def handle_password_log_in(self):
+    def handle_password_log_in(self):  # Проверка пароля при входе
         if authorization.find_in_db(self.username_lineEdit.text().strip()) and \
                 authorization.login_in_db(self.username_lineEdit.text().strip(),
                                           self.password_lineEdit.text().strip()):
@@ -230,11 +231,12 @@ class Login(QDialog):
         else:
             QMessageBox.warning(self, "Error", "Неверный пароль или несуществующий логин")
 
-    def registrate(self):
-        if self.username_lineEdit.text().strip() != "":
+    def registrate(self):  # Регистрация
+        if self.username_lineEdit.text().strip() != "" and \
+                not ("'" in self.username_lineEdit.text()):
             if not authorization.find_in_db(self.username_lineEdit.text().strip()):
                 self.handle_password_registrate()
             else:
                 QMessageBox.warning(self, "Error", "Такой логин уже существует")
         else:
-            QMessageBox.warning(self, "Error", "Имя не может быть пустым")
+            QMessageBox.warning(self, "Error", "Имя не может быть пустым или содержать кавычки")
