@@ -1,8 +1,13 @@
 import sqlite3
+import sys
 
 
-con = sqlite3.connect(r"database\users_database.sqlite3")
-cur = con.cursor()
+try:
+    con = sqlite3.connect(r"database\users_database.sqlite3")
+    cur = con.cursor()
+except sqlite3.OperationalError:
+    print("[!] Отсутствует файл базы данных [!]")
+    sys.exit()
 
 
 def login_in_db(username, password):
