@@ -144,7 +144,7 @@ class MainWindow(QWidget):
         
         if self.ram_box.checkState():
             ram = round(float(os_info.TotalVisibleMemorySize) / 1024 / 1024, 2)
-            self.total_hardware_list.append(f"Объем ОЗУ: {ram}")
+            self.total_hardware_list.append(f"Объем ОЗУ: {ram} ГБ")
         self.progressBar.setValue(88)
         
         if self.gpu_box.checkState():

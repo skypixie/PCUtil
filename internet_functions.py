@@ -9,12 +9,12 @@ def ping():
 
 
 def upload_speed():
-    st = speedtest.Speedtest()
+    st = speedtest.Speedtest(secure=True)
     return make_readable_size(st.upload())
 
 
 def download_speed():
-    st = speedtest.Speedtest()
+    st = speedtest.Speedtest(secure=True)
     return make_readable_size(st.download())
 
 
