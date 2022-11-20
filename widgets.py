@@ -19,7 +19,8 @@ class MainWindow(QWidget):
         self.connect_buttons()
         self.setWindowIcon(QIcon("icon.png"))
         self.setWindowTitle("Показометр скорости интернета и параметров компьютера")
-        self.progressBar.setValue(0)
+        self.internet_progressBar.setValue(0)
+        self.hardware_progressBar.setValue(0)
 
         self.total_hardware_list = []
         self.total_internet_list = []
@@ -75,7 +76,7 @@ class MainWindow(QWidget):
         self.gpu_box.setChecked(True)
 
     def display_internet(self):  # Отобразить параметры интернета
-        self.progressBar.setValue(0)
+        self.internet_progressBar.setValue(0)
         self.set_internet_list()
         self.internet_listwidget.clear()
         self.internet_listwidget.addItems(self.total_internet_list)
@@ -112,7 +113,7 @@ class MainWindow(QWidget):
         self.download_box.setChecked(True)
 
     def set_hardware_list(self):  # Сформировать список с параметрами компьютера
-        self.progressBar.setValue(0)
+        self.hardware_progressBar.setValue(0)
         self.total_hardware_list = []
         computer = wmi.WMI()
 
@@ -121,31 +122,31 @@ class MainWindow(QWidget):
 
         if self.manufacturer_box.checkState():
             self.total_hardware_list.append(f"Производитель: {computer_info.Manufacturer}")
-        self.progressBar.setValue(14)
+        self.hardware_progressBar.setValue(14)
 
         if self.pc_model_box.checkState():
             self.total_hardware_list.append(f"Модель: {computer_info.Model}")
-        self.progressBar.setValue(29)
+        self.hardware_progressBar.setValue(29)
         
         if self.os_name_box.checkState():
             os_name = os_info.Name.encode("utf-8").split(b"|")[0].decode()
             self.total_hardware_list.append(f"Имя ОС: {os_name}")
-        self.progressBar.setValue(44)
+        self.hardware_progressBar.setValue(44)
         
         if self.os_version_box.checkState():
             os_version = ' '.join([os_info.Version, os_info.BuildNumber])
             self.total_hardware_list.append(f"Версия ОС: {os_version}")
-        self.progressBar.setValue(59)
+        self.hardware_progressBar.setValue(59)
         
         if self.cpu_name_box.checkState():
             cpu_info = computer.Win32_Processor()[0].Name
             self.total_hardware_list.append(f"Название процессора: {cpu_info}")
-        self.progressBar.setValue(73)
+        self.hardware_progressBar.setValue(73)
         
         if self.ram_box.checkState():
             ram = round(float(os_info.TotalVisibleMemorySize) / 1024 / 1024, 2)
-            self.total_hardware_list.append(f"Объем ОЗУ: {ram} ГБ")
-        self.progressBar.setValue(88)
+            self.total_hardware_list.append(f"Объем ОЗУ: {ram}")
+        self.hardware_progressBar.setValue(88)
         
         if self.gpu_box.checkState():
             gpu_info = computer.Win32_VideoController()
@@ -155,7 +156,7 @@ class MainWindow(QWidget):
                     self.total_hardware_list.append(f"Видеокарта номер {i}: {card.Name}")
             else:
                 self.total_hardware_list.append(gpu_info[0].Name)
-        self.progressBar.setValue(100)
+        self.hardware_progressBar.setValue(100)
 
     def set_internet_list(self):  # Сформровать список с параметрами интернета
         try:
@@ -163,17 +164,17 @@ class MainWindow(QWidget):
 
             if self.ping_box.checkState():
                 self.total_internet_list.append(f"Ping: {ping()}")
-            self.progressBar.setValue(30)
+            self.internet_progressBar.setValue(30)
 
             if self.upload_box.checkState():
                 self.total_internet_list.append(f"Скорость загрузки: {upload_speed()}")
-            self.progressBar.setValue(65)
+            self.internet_progressBar.setValue(65)
 
             if self.download_box.checkState():
                 self.total_internet_list.append(f"Скорость скачивания: {download_speed()}")
             self.internet_error_label.setText("")
 
-            self.progressBar.setValue(100)
+            self.internet_progressBar.setValue(100)
         except speedtest.SpeedtestBestServerFailure:
             self.internet_error_label.setStyleSheet("color: red")
             self.internet_error_label.setText("Нет подключения к сети")
