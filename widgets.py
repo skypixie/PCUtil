@@ -140,13 +140,15 @@ class MainWindow(QWidget):
         self.hardware_progressBar.setValue(59)
         
         if self.cpu_name_box.checkState():
-            cpu_info = computer.Win32_Processor()[0].Name
-            self.total_hardware_list.append(f"Название процессора: {cpu_info}")
+            cpu_info = computer.Win32_Processor()[0]
+            self.total_hardware_list.append(f"Название процессора: {cpu_info.Name}")
+            self.total_hardware_list.append(f"Количество ядер процессора: {cpu_info.NumberOfCores}")
+            self.total_hardware_list.append(f"Количество потоков процессора: {cpu_info.ThreadCount}")
         self.hardware_progressBar.setValue(73)
         
         if self.ram_box.checkState():
             ram = round(float(os_info.TotalVisibleMemorySize) / 1024 / 1024, 2)
-            self.total_hardware_list.append(f"Объем ОЗУ: {ram}")
+            self.total_hardware_list.append(f"Объем ОЗУ: {ram} ГБ")
         self.hardware_progressBar.setValue(88)
         
         if self.gpu_box.checkState():
