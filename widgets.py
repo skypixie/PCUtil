@@ -1,4 +1,3 @@
-import speedtest
 import wmi
 import authorization
 
@@ -6,6 +5,7 @@ import authorization
 from internet_functions import ping, upload_speed, download_speed
 from user_exceptions import NoFileName
 
+from speedtest import SpeedtestBestServerFailure
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QDialog, QLineEdit, QLabel
@@ -113,6 +113,7 @@ class MainWindow(QWidget):
         self.download_box.setChecked(True)
 
     def set_hardware_list(self):  # Сформировать список с параметрами компьютера
+        self.hardware_error_label.setText("Подождите...")
         self.hardware_progressBar.setValue(0)
         self.total_hardware_list = []
         computer = wmi.WMI()
@@ -156,9 +157,11 @@ class MainWindow(QWidget):
                     self.total_hardware_list.append(f"Видеокарта номер {i}: {card.Name}")
             else:
                 self.total_hardware_list.append(gpu_info[0].Name)
+        self.hardware_error_label.setText("")
         self.hardware_progressBar.setValue(100)
 
     def set_internet_list(self):  # Сформровать список с параметрами интернета
+        self.internet_error_label.setText("Подождите...")
         try:
             self.total_internet_list = []
 
@@ -175,9 +178,11 @@ class MainWindow(QWidget):
             self.internet_error_label.setText("")
 
             self.internet_progressBar.setValue(100)
-        except speedtest.SpeedtestBestServerFailure:
+        except SpeedtestBestServerFailure:
             self.internet_error_label.setStyleSheet("color: red")
             self.internet_error_label.setText("Нет подключения к сети")
+
+        self.internet_error_label.setText("")
 
 
 class Login(QDialog):  # Диалоговое окно для авторизации
