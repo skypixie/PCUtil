@@ -157,18 +157,25 @@ class MainWindow(QWidget):
             if len(gpu_info) > 1:
                 for i, card in enumerate(gpu_info, 1):
                     self.total_hardware_list.append(f"Видеокарта номер {i}: {card.Name}")
+                    self.total_hardware_list.append(f"Объем видеопамяти: {card.AdapterRAM}")
             else:
-                self.total_hardware_list.append(gpu_info[0].Name)
+                self.total_hardware_list.append(f"Видеокарта: {gpu_info[0].Name}")
+
         self.hardware_error_label.setText("")
         self.hardware_progressBar.setValue(100)
 
     def set_internet_list(self):  # Сформровать список с параметрами интернета
         self.internet_error_label.setText("Подождите...")
+
         try:
             self.total_internet_list = []
 
             if self.ping_box.checkState():
-                self.total_internet_list.append(f"Ping: {ping()}")
+                addr = self.ping_lineEdit.text()
+                if addr != "":
+                    self.total_internet_list.append(f"Ping: {ping(addr)}")
+                else:
+                    self.total_internet_list.append(F"Ping: {ping()}")
             self.internet_progressBar.setValue(30)
 
             if self.upload_box.checkState():

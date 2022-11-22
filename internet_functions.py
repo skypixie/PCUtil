@@ -2,10 +2,13 @@ import subprocess
 import speedtest
 
 
-def ping():
-    ping_str = subprocess.run(["ping", "-n", "1", "yandex.ru"],
+def ping(addr="yandex.ru"):
+    ping_str = subprocess.run(["ping", "-n", "1", addr],
                               stdout=subprocess.PIPE, encoding="CP866")
-    return parse_ping(ping_str.stdout)
+    if not ("При проверке связи не удалось обнаружить узел" in ping_str.stdout or
+            "could not find host" in ping_str.stdout):
+        return parse_ping(ping_str.stdout)
+    return "Такого адреса не существует"
 
 
 def upload_speed():
@@ -18,7 +21,7 @@ def download_speed():
     return make_readable_size(st.download())
 
 
-def make_readable_size(n_bytes):  # Прводит число к читаемому формату и добавляет единицы измерения
+def make_readable_size(n_bytes):  # Приводит число к читаемому формату и добавляет единицы измерения
     sizes = ["B", "KB", "MB", "GB", "TB"]
     ind = 0
 

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>799</width>
+    <width>805</width>
     <height>543</height>
    </rect>
   </property>
@@ -103,8 +103,8 @@
     <rect>
      <x>420</x>
      <y>30</y>
-     <width>200</width>
-     <height>65</height>
+     <width>216</width>
+     <height>91</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -114,7 +114,14 @@
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>Показать ping (задержку сигнала)</string>
+       <string>Показать ping (задержку сигнала) до</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="ping_lineEdit">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
      </widget>
     </item>
@@ -205,7 +212,7 @@ color: rgb(93, 89, 197);</string>
   <widget class="QWidget" name="verticalLayoutWidget_4">
    <property name="geometry">
     <rect>
-     <x>620</x>
+     <x>640</x>
      <y>30</y>
      <width>161</width>
      <height>91</height>
