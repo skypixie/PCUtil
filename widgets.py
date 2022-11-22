@@ -157,7 +157,6 @@ class MainWindow(QWidget):
             if len(gpu_info) > 1:
                 for i, card in enumerate(gpu_info, 1):
                     self.total_hardware_list.append(f"Видеокарта номер {i}: {card.Name}")
-                    self.total_hardware_list.append(f"Объем видеопамяти: {card.AdapterRAM}")
             else:
                 self.total_hardware_list.append(f"Видеокарта: {gpu_info[0].Name}")
 
