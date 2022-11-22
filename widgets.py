@@ -163,7 +163,7 @@ class MainWindow(QWidget):
         self.hardware_error_label.setText("")
         self.hardware_progressBar.setValue(100)
 
-    def set_internet_list(self):  # Сформровать список с параметрами интернета
+    def set_internet_list(self):  # Сформировать список с параметрами интернета
         self.internet_error_label.setText("Подождите...")
 
         try:
@@ -175,6 +175,7 @@ class MainWindow(QWidget):
                     self.total_internet_list.append(f"Ping: {ping(addr)}")
                 else:
                     self.total_internet_list.append(F"Ping: {ping()}")
+                    self.ping_lineEdit.setText("yandex.ru")
             self.internet_progressBar.setValue(30)
 
             if self.upload_box.checkState():
